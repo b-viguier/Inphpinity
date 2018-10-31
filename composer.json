@@ -1,0 +1,12 @@
+{
+    "name": "bviguier/inphpinity",
+    "description": "An experience about gaming and Php",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Benoit Viguier",
+            "email": "benoit.viguier.pro+github@gmail.com"
+        }
+    ],
+    "require": {}
+}
