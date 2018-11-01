@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$grid = \bviguier\Inphpinity\Domain\Engine\Grid::create(
+        5, 5, 100
+);
+
+$grid->setBlock(
+    new \bviguier\Inphpinity\Domain\Geometry\Point(0,0),
+    \bviguier\Inphpinity\Domain\Engine\Block::create(
+        new \bviguier\Inphpinity\Infrastructure\Render\SDL2\ColorBlock()
+    )
+);
+$grid->setBlock(
+    new \bviguier\Inphpinity\Domain\Geometry\Point(1,1),
+    \bviguier\Inphpinity\Domain\Engine\Block::create(
+        new \bviguier\Inphpinity\Infrastructure\Render\SDL2\ColorBlock()
+    )
+);
+
+$renderEngine = new \bviguier\Inphpinity\Infrastructure\Render\SDL2\Engine();
+
+$renderEngine->run($grid);
