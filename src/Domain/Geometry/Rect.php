@@ -9,54 +9,71 @@ class Rect
     use NamedConstructor;
 
     /**
-     * @var Point
+     * @var int
      */
-    private $bottomLeft;
+    private $left;
 
     /**
-     * @var Point
+     * @var int
      */
-    private $topRight;
+    private $top;
+
+    /**
+     * @var int
+     */
+    private $right;
+
+    /**
+     * @var int
+     */
+    private $bottom;
 
     public static function createFromPoints(Point $p1, Point $p2): self
     {
         $rect = new self();
-        [$xMin, $xMax] = $p1->x() < $p2->x() ? [$p1->x(), $p2->x()] : [$p2->x(), $p1->x()];
-        [$yMin, $yMax] = $p1->y() < $p2->y() ? [$p1->y(), $p2->y()] : [$p2->y(), $p1->y()];
-        $rect->bottomLeft = new Point($xMin, $yMin);
-        $rect->topRight = new Point($xMax, $yMax);
+        [$rect->left, $rect->right] = $p1->x() < $p2->x() ? [$p1->x(), $p2->x()] : [$p2->x(), $p1->x()];
+        [$rect->top, $rect->bottom] = $p1->y() < $p2->y() ? [$p1->y(), $p2->y()] : [$p2->y(), $p1->y()];
+
+        return $rect;
+    }
+
+    public static function createFromOriginAndSize(Point $origin, int $width, int $height): self
+    {
+        $rect = new self();
+        $rect->right = ($rect->left = $origin->x()) + $width;
+        $rect->bottom = ($rect->top = $origin->y()) + $height;
 
         return $rect;
     }
 
     public function left(): int
     {
-        return $this->bottomLeft->x();
+        return $this->left;
     }
 
     public function right(): int
     {
-        return $this->topRight->x();
+        return $this->right;
     }
 
     public function bottom(): int
     {
-        return $this->bottomLeft->y();
+        return $this->bottom;
     }
 
     public function top(): int
     {
-        return $this->topRight->y();
+        return $this->top;
     }
 
     public function width(): int
     {
-        return $this->topRight->x() - $this->bottomLeft->x();
+        return $this->right - $this->left;
     }
 
     public function height(): int
     {
-        return $this->topRight->y() - $this->bottomLeft->y();
+        return $this->bottom - $this->top;
     }
 
     public function contains(Point $point): bool
@@ -64,9 +81,9 @@ class Rect
         $x = $point->x();
         $y = $point->y();
 
-        return $this->bottomLeft->x() <= $x
-            && $this->bottomLeft->y() <= $y
-            && $x <=$this->topRight->x()
-            && $y <=$this->topRight->y();
+        return $this->left <= $x
+            && $this->top <= $y
+            && $x <= $this->right
+            && $y <= $this->bottom;
     }
 }

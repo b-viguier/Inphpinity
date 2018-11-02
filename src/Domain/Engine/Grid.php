@@ -21,9 +21,9 @@ class Grid implements Drawable
     {
         $grid = new self();
         $grid->blockSize = $blockSize;
-        $grid->blocks = new \SplFixedArray($width);
-        for ($x = 0; $x < $grid->blocks->getSize(); ++$x) {
-            $grid->blocks[$x] = new \SplFixedArray($height);
+        $grid->blocks = new \SplFixedArray($height);
+        for ($row = 0; $row < $height; ++$row) {
+            $grid->blocks[$row] = new \SplFixedArray($height);
         }
 
         return $grid;
@@ -38,23 +38,24 @@ class Grid implements Drawable
 
     public function draw(Rect $destination, DrawingContext $context)
     {
-        $xFrom = (int)floor($destination->left() / $this->blockSize);
-        $xTo = (int)ceil($destination->right() / $this->blockSize);
-        $xTo = min($xTo, $this->blocks->getSize());
+        $colStart = (int)floor($destination->left() / $this->blockSize);
+        $colEnd = (int)ceil($destination->right() / $this->blockSize);
+        $colEnd = min($colEnd, $this->blocks->getSize());
 
-        $yFrom = (int)floor($destination->bottom() / $this->blockSize);
-        $yTo = (int)floor($destination->top() / $this->blockSize);
-        $yTo = min($yTo, $this->blocks->getSize());
+        $rowStart = (int)floor($destination->top() / $this->blockSize);
+        $rowEnd = (int)floor($destination->bottom() / $this->blockSize);
+        $rowEnd = min($rowEnd, $this->blocks->getSize());
 
-        for ($x = $xFrom; $x < $xTo; ++$x) {
-            for ($y = $yFrom; $y < $yTo; ++$y) {
-                if ($this->blocks[$x][$y] === null) {
+        for ($row = $rowStart; $row < $rowEnd; ++$row) {
+            for ($col = $colStart; $col < $colEnd; ++$col) {
+                if ($this->blocks[$row][$col] === null) {
                     continue;
                 }
-                $this->blocks[$x][$y]->drawable()->draw(
-                    Rect::createFromPoints(
-                        new Point($x * $this->blockSize, $y * $this->blockSize),
-                        new Point(($x + 1) * $this->blockSize, ($y + 1) * $this->blockSize)
+                $this->blocks[$row][$col]->drawable()->draw(
+                    Rect::createFromOriginAndSize(
+                        new Point($col * $this->blockSize, $row * $this->blockSize),
+                        $this->blockSize,
+                        $this->blockSize
                     ),
                     $context
                 );

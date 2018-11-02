@@ -47,4 +47,14 @@ class Engine
         SDL_DestroyWindow($window);
         SDL_Quit();
     }
+
+    public static function createSdlRect(Domain\Geometry\Rect $rect): \SDL_Rect
+    {
+        return new \SDL_Rect(
+            $rect->left(),
+            $rect->top(),
+            $rect->width(),
+            $rect->height()
+        );
+    }
 }

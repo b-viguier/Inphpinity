@@ -16,8 +16,7 @@ class ColorBlock implements Drawable
     public function draw(Rect $destination, DrawingContext $context)
     {
         $renderer = $context->sdlRenderer();
-        $rect = new \SDL_Rect($destination->left(), $destination->bottom(), $destination->width(), $destination->height());
         SDL_SetRenderDrawColor($renderer, 255, 0, 0, 255);
-        SDL_RenderFillRect($renderer, $rect);
+        SDL_RenderFillRect($renderer, Engine::createSdlRect($destination));
     }
 }
