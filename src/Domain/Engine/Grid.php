@@ -23,7 +23,7 @@ class Grid implements Drawable
         $grid->blockSize = $blockSize;
         $grid->blocks = new \SplFixedArray($height);
         for ($row = 0; $row < $height; ++$row) {
-            $grid->blocks[$row] = new \SplFixedArray($height);
+            $grid->blocks[$row] = new \SplFixedArray($width);
         }
 
         return $grid;
@@ -40,7 +40,7 @@ class Grid implements Drawable
     {
         $colStart = (int)floor($destination->left() / $this->blockSize);
         $colEnd = (int)ceil($destination->right() / $this->blockSize);
-        $colEnd = min($colEnd, $this->blocks->getSize());
+        $colEnd = min($colEnd, $this->blocks[0]->getSize());
 
         $rowStart = (int)floor($destination->top() / $this->blockSize);
         $rowEnd = (int)floor($destination->bottom() / $this->blockSize);
