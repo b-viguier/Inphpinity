@@ -39,8 +39,15 @@ class Engine
         );
         $source = clone $destination;
         $quit = false;
-        $speed = 5;
+        $speed = 1;
         $event = new \SDL_Event;
+        $lastTime = microtime(true);
+        $keyState = [
+            SDLK_UP => false,
+            SDLK_DOWN => false,
+            SDLK_LEFT => false,
+            SDLK_RIGHT => false,
+        ];
         while (!$quit) {
             while (SDL_PollEvent($event) !== 0) {
                 switch ($event->type) {
@@ -48,21 +55,25 @@ class Engine
                         $quit = true;
                         break;
                     case SDL_KEYDOWN:
-                        switch ($event->key->keysym->sym) {
-                            case SDLK_UP:
-                                $source = $source->moved(0, -$speed);
-                                break;
-                            case SDLK_DOWN:
-                                $source = $source->moved(0, $speed);
-                                break;
-                            case SDLK_LEFT:
-                                $source = $source->moved(-$speed, 0);
-                                break;
-                            case SDLK_RIGHT:
-                                $source = $source->moved($speed, 0);
-                                break;
-                        }
+                        $keyState[$event->key->keysym->sym] = true;
+                        break;
+                    case SDL_KEYUP:
+                        $keyState[$event->key->keysym->sym] = false;
+                        break;
                 }
+            }
+
+            if ($keyState[SDLK_UP]) {
+                $source = $source->moved(0, -$speed);
+            }
+            if ($keyState[SDLK_DOWN]) {
+                $source = $source->moved(0, $speed);
+            }
+            if ($keyState[SDLK_LEFT]) {
+                $source = $source->moved(-$speed, 0);
+            }
+            if ($keyState[SDLK_RIGHT]) {
+                $source = $source->moved($speed, 0);
             }
 
             //Clear screen
@@ -73,7 +84,14 @@ class Engine
 
             SDL_RenderPresent($this->renderer);
             SDL_Delay(5);
+
+            $duration = microtime(true) - $lastTime;
+            $durationMs = (int) ($duration * 1000);
+            $fps = (int)(1 / $duration);
+            echo "Duration: $durationMs ms     FPS: {$fps}     \r";
+            $lastTime += $duration;
         }
+        echo PHP_EOL;
     }
 
     public static function createSdlRect(Domain\Geometry\Rect $rect): \SDL_Rect
