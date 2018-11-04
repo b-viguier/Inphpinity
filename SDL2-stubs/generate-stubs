@@ -1,0 +1,60 @@
+#!/usr/bin/env php
+<?php
+
+$extension = new \ReflectionExtension('SDL');
+
+$output = '<?php' . PHP_EOL;
+foreach ($extension->getFunctions() as $function) {
+    $output .= getFunctionPrototype($function);
+}
+
+foreach ($extension->getClasses() as $class) {
+    $output .= "\nclass {$class->getName()} {\n";
+    foreach($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+
+        $output .= "\tpublic ";
+        if($method->isStatic()) {
+            $output .= 'static ';
+        }
+        $output .= getFunctionPrototype($method);
+    }
+
+    foreach ($class->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+        $output .= "\tpublic \${$property->getName()};\n";
+    }
+    $output .= "}\n";
+}
+
+foreach ($extension->getConstants() as $name => $value) {
+    $value = is_numeric($value) ? $value : "'$value'";
+    $output .= "define('$name',  $value);\n";
+}
+
+function getFunctionPrototype(\ReflectionFunctionAbstract $function): string
+{
+    $output = "function {$function->getName()}(";
+    $output .= implode(', ', array_map(function ($parameter) {
+        $output = '';
+        if ($parameter->hasType()) {
+            $output .= "{$parameter->getType()->getName()} ";
+        } elseif ($parameter->isArray()) {
+            $output .= "array ";
+        }
+
+        return $output . "\${$parameter->getName()}";
+    }, $function->getParameters()));
+    $output .= ') ';
+
+    if( $function->hasReturnType() ) {
+        $output .= ": {$function->getReturnType()->getName()} ";
+    } else if($function->getName() === '__toString') {
+        // Fix missing return type
+        $output .= ': string ';
+    }
+
+    $output .= "{}\n";
+
+    return $output;
+}
+
+file_put_contents(__DIR__ . '/stubs.php', $output);
