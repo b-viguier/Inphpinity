@@ -3,13 +3,13 @@
 
 
 
-         B
-
-
-                    BBBB   BB
-        BBBB
+                      ?
 
 
 
-GGGGGGGGGGGGGGGGGGGGGGGGG  GGGGGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGGGGGGGGGGGG  GGGGGGGGGGGGGGGGGG
+                ?   B?B?B
+
+
+           GGGGG       GGG
+---------------------------------------------
+---------------------------------------------

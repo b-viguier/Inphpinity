@@ -3,21 +3,9 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-
 $renderEngine = new \Inphpinity\Infrastructure\Render\SDL2\Engine();
 
-
-$gridLoader = \Inphpinity\Infrastructure\Loader\TextGridLoader::fromDrawableMap([
-    'G' => \Inphpinity\Infrastructure\Render\SDL2\TextureBlock::fromBmpFile(
-        $renderEngine,
-        __DIR__ . '/../config/textures/gnd_red_1.bmp'
-    ),
-    'B' => \Inphpinity\Infrastructure\Render\SDL2\TextureBlock::fromBmpFile(
-        $renderEngine,
-        __DIR__ . '/../config/textures/brickred.bmp'
-    ),
-]);
-
+$gridLoader = require __DIR__.'/../config/grids/bootstrap.php';
 $grid = $gridLoader->loadFile(__DIR__.'/../config/grids/lvl11.txt', 32);
 
 $renderEngine->run($grid);
