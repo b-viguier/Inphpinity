@@ -15,6 +15,9 @@ class Grid implements Drawable
      */
     private $blocks;
 
+    /**
+     * @var int
+     */
     private $blockSize = 0;
 
     public static function create(int $width, int $height, int $blockSize): self
@@ -36,24 +39,29 @@ class Grid implements Drawable
         return $this;
     }
 
-    public function draw(Rect $destination, DrawingContext $context)
+    public function draw(Rect $source, Rect $destination, DrawingContext $context)
     {
-        $colStart = (int)floor($destination->left() / $this->blockSize);
-        $colEnd = (int)ceil($destination->right() / $this->blockSize);
+        $colStart = (int)floor($source->left() / $this->blockSize);
+        $colStart = max(0, $colStart);
+        $colEnd = (int)ceil($source->right() / $this->blockSize);
         $colEnd = min($colEnd, $this->blocks[0]->getSize());
 
-        $rowStart = (int)floor($destination->top() / $this->blockSize);
-        $rowEnd = (int)floor($destination->bottom() / $this->blockSize);
+        $rowStart = (int)floor($source->top() / $this->blockSize);
+        $rowStart = max(0, $rowStart);
+        $rowEnd = (int)ceil($source->bottom() / $this->blockSize);
         $rowEnd = min($rowEnd, $this->blocks->getSize());
 
+        $xOffset = -$source->left();
+        $yOffset = -$source->top();
         for ($row = $rowStart; $row < $rowEnd; ++$row) {
             for ($col = $colStart; $col < $colEnd; ++$col) {
                 if ($this->blocks[$row][$col] === null) {
                     continue;
                 }
                 $this->blocks[$row][$col]->drawable()->draw(
+                    $source,
                     Rect::createFromOriginAndSize(
-                        new Point($col * $this->blockSize, $row * $this->blockSize),
+                        new Point($xOffset + $col * $this->blockSize, $yOffset + $row * $this->blockSize),
                         $this->blockSize,
                         $this->blockSize
                     ),

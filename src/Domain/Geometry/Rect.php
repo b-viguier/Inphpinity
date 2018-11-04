@@ -86,4 +86,15 @@ class Rect
             && $x <= $this->right
             && $y <= $this->bottom;
     }
+
+    public function moved(int $xDelta, int $yDelta): self
+    {
+        $rect = clone $this;
+        $rect->left += $xDelta;
+        $rect->right += $xDelta;
+        $rect->bottom += $yDelta;
+        $rect->top += $yDelta;
+
+        return $rect;
+    }
 }

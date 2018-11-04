@@ -6,5 +6,5 @@ use bviguier\Inphpinity\Domain\Geometry\Rect;
 
 interface Drawable
 {
-    public function draw(Rect $destination, DrawingContext $context);
+    public function draw(Rect $source, Rect $destination, DrawingContext $context);
 }
