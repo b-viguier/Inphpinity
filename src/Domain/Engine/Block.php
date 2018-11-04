@@ -1,8 +1,8 @@
 <?php
 
-namespace bviguier\Inphpinity\Domain\Engine;
+namespace Inphpinity\Domain\Engine;
 
-use bviguier\Inphpinity\Domain\Pattern\NamedConstructor;
+use Inphpinity\Domain\Pattern\NamedConstructor;
 
 class Block
 {

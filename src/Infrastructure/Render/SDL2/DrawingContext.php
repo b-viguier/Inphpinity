@@ -1,8 +1,8 @@
 <?php
 
-namespace bviguier\Inphpinity\Infrastructure\Render\SDL2;
+namespace Inphpinity\Infrastructure\Render\SDL2;
 
-class DrawingContext implements \bviguier\Inphpinity\Domain\Engine\DrawingContext
+class DrawingContext implements \Inphpinity\Domain\Engine\DrawingContext
 {
     /**
      * @var resource

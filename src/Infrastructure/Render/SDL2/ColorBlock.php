@@ -1,11 +1,11 @@
 <?php
 
-namespace bviguier\Inphpinity\Infrastructure\Render\SDL2;
+namespace Inphpinity\Infrastructure\Render\SDL2;
 
-use bviguier\Inphpinity\Domain\Engine\Drawable;
-use bviguier\Inphpinity\Domain\Engine\DrawingContext;
-use bviguier\Inphpinity\Domain\Geometry\Rect;
-use bviguier\Inphpinity\Infrastructure\Render\SDL2\DrawingContext as SdlDrawingContext;
+use Inphpinity\Domain\Engine\Drawable;
+use Inphpinity\Domain\Engine\DrawingContext;
+use Inphpinity\Domain\Geometry\Rect;
+use Inphpinity\Infrastructure\Render\SDL2\DrawingContext as SdlDrawingContext;
 
 class ColorBlock implements Drawable
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace bviguier\Inphpinity\Domain\Pattern;
+namespace Inphpinity\Domain\Pattern;
 
 trait NamedConstructor
 {

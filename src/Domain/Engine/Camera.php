@@ -1,6 +1,6 @@
 <?php
 
-namespace bviguier\Inphpinity\Domain\Engine;
+namespace Inphpinity\Domain\Engine;
 
 class Camera
 {

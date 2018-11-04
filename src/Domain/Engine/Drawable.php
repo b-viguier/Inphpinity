@@ -1,8 +1,8 @@
 <?php
 
-namespace bviguier\Inphpinity\Domain\Engine;
+namespace Inphpinity\Domain\Engine;
 
-use bviguier\Inphpinity\Domain\Geometry\Rect;
+use Inphpinity\Domain\Geometry\Rect;
 
 interface Drawable
 {

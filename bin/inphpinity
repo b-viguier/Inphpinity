@@ -5,23 +5,23 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $gridHeight = 50;
 $gridWidth = 80;
-$grid = \bviguier\Inphpinity\Domain\Engine\Grid::create(
+$grid = \Inphpinity\Domain\Engine\Grid::create(
     $gridWidth, $gridHeight, 10
 );
 
 for($i=0; $i< $gridWidth*$gridHeight; $i+=2) {
     $grid->setBlock(
-        new \bviguier\Inphpinity\Domain\Geometry\Point(
+        new \Inphpinity\Domain\Geometry\Point(
             $row = (int)($i/$gridWidth),
             ($col = $i%$gridWidth) + ($col+$row)%2
         ),
-        \bviguier\Inphpinity\Domain\Engine\Block::create(
-            new \bviguier\Inphpinity\Infrastructure\Render\SDL2\ColorBlock()
+        \Inphpinity\Domain\Engine\Block::create(
+            new \Inphpinity\Infrastructure\Render\SDL2\ColorBlock()
         )
     );
 }
 
 
-$renderEngine = new \bviguier\Inphpinity\Infrastructure\Render\SDL2\Engine();
+$renderEngine = new \Inphpinity\Infrastructure\Render\SDL2\Engine();
 
 $renderEngine->run($grid);

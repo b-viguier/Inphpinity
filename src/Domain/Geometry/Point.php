@@ -1,6 +1,6 @@
 <?php
 
-namespace bviguier\Inphpinity\Domain\Geometry;
+namespace Inphpinity\Domain\Geometry;
 
 class Point
 {

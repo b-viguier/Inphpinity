@@ -1,8 +1,8 @@
 <?php
 
-namespace bviguier\Inphpinity\Domain\Geometry;
+namespace Inphpinity\Domain\Geometry;
 
-use bviguier\Inphpinity\Domain\Pattern\NamedConstructor;
+use Inphpinity\Domain\Pattern\NamedConstructor;
 
 class Color
 {

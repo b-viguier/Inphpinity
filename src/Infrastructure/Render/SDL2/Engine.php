@@ -1,8 +1,8 @@
 <?php
 
-namespace bviguier\Inphpinity\Infrastructure\Render\SDL2;
+namespace Inphpinity\Infrastructure\Render\SDL2;
 
-use bviguier\Inphpinity\Domain;
+use Inphpinity\Domain;
 
 class Engine
 {

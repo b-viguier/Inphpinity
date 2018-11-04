@@ -1,10 +1,10 @@
 <?php
 
-namespace bviguier\Inphpinity\Domain\Engine;
+namespace Inphpinity\Domain\Engine;
 
-use bviguier\Inphpinity\Domain\Geometry\Point;
-use bviguier\Inphpinity\Domain\Geometry\Rect;
-use bviguier\Inphpinity\Domain\Pattern\NamedConstructor;
+use Inphpinity\Domain\Geometry\Point;
+use Inphpinity\Domain\Geometry\Rect;
+use Inphpinity\Domain\Pattern\NamedConstructor;
 
 class Grid implements Drawable
 {
