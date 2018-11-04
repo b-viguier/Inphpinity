@@ -503,7 +503,7 @@ function SDL_GetPlatform()
 function SDL_GetKeyboardFocus()
 {
 }
-function SDL_GetKeyboardState($numkeys, $allkeys)
+function SDL_GetKeyboardState(int &$numkeys, bool $allkeys): array
 {
 }
 function SDL_GetModState()

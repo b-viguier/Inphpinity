@@ -42,37 +42,27 @@ class Engine
         $speed = 1;
         $event = new \SDL_Event;
         $lastTime = microtime(true);
-        $keyState = [
-            SDLK_UP => false,
-            SDLK_DOWN => false,
-            SDLK_LEFT => false,
-            SDLK_RIGHT => false,
-        ];
+        $numKeys = 0;
         while (!$quit) {
+            $keyState = array_flip(SDL_GetKeyboardState($numKeys, false));
             while (SDL_PollEvent($event) !== 0) {
                 switch ($event->type) {
                     case SDL_QUIT:
                         $quit = true;
                         break;
-                    case SDL_KEYDOWN:
-                        $keyState[$event->key->keysym->sym] = true;
-                        break;
-                    case SDL_KEYUP:
-                        $keyState[$event->key->keysym->sym] = false;
-                        break;
                 }
             }
 
-            if ($keyState[SDLK_UP]) {
+            if (isset($keyState[SDL_SCANCODE_UP])) {
                 $source = $source->moved(0, -$speed);
             }
-            if ($keyState[SDLK_DOWN]) {
+            if (isset($keyState[SDL_SCANCODE_DOWN])) {
                 $source = $source->moved(0, $speed);
             }
-            if ($keyState[SDLK_LEFT]) {
+            if (isset($keyState[SDL_SCANCODE_LEFT])) {
                 $source = $source->moved(-$speed, 0);
             }
-            if ($keyState[SDLK_RIGHT]) {
+            if (isset($keyState[SDL_SCANCODE_RIGHT])) {
                 $source = $source->moved($speed, 0);
             }
 
