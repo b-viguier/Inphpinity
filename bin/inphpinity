@@ -6,7 +6,14 @@ require __DIR__ . '/../vendor/autoload.php';
 $gridHeight = 50;
 $gridWidth = 80;
 $grid = \Inphpinity\Domain\Engine\Grid::create(
-    $gridWidth, $gridHeight, 10
+    $gridWidth, $gridHeight, 30
+);
+
+$renderEngine = new \Inphpinity\Infrastructure\Render\SDL2\Engine();
+
+$block = \Inphpinity\Infrastructure\Render\SDL2\TextureBlock::fromBmpFile(
+        $renderEngine,
+        __DIR__ . '/../config/textures/gnd_red_1.bmp'
 );
 
 for($i=0; $i< $gridWidth*$gridHeight; $i+=2) {
@@ -15,13 +22,10 @@ for($i=0; $i< $gridWidth*$gridHeight; $i+=2) {
             $row = (int)($i/$gridWidth),
             ($col = $i%$gridWidth) + ($col+$row)%2
         ),
-        \Inphpinity\Domain\Engine\Block::create(
-            new \Inphpinity\Infrastructure\Render\SDL2\ColorBlock()
-        )
+        \Inphpinity\Domain\Engine\Block::create($block)
     );
 }
 
 
-$renderEngine = new \Inphpinity\Infrastructure\Render\SDL2\Engine();
 
 $renderEngine->run($grid);

@@ -6,16 +6,31 @@ use Inphpinity\Domain;
 
 class Engine
 {
+    private $window;
+    private $renderer;
+
     public function __construct()
     {
+        SDL_Init(SDL_INIT_VIDEO);
+        $this->window = SDL_CreateWindow("Inphpinity", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
+        $this->renderer = SDL_CreateRenderer($this->window, -1, 0);
+    }
+
+    public function __destruct()
+    {
+        SDL_DestroyRenderer($this->renderer);
+        SDL_DestroyWindow($this->window);
+        SDL_Quit();
+    }
+
+    public function sdlRenderer()
+    {
+        return $this->renderer;
     }
 
     public function run(Domain\Engine\Grid $grid)
     {
-        SDL_Init(SDL_INIT_VIDEO);
-        $window = SDL_CreateWindow("Inphpinity", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
-        $renderer = SDL_CreateRenderer($window, -1, 0);
-        $drawingContext = new DrawingContext($renderer);
+        $drawingContext = new DrawingContext($this->renderer);
 
 
         $destination = Domain\Geometry\Rect::createFromPoints(
@@ -51,18 +66,14 @@ class Engine
             }
 
             //Clear screen
-            SDL_SetRenderDrawColor($renderer, 10, 10, 150, 255);
-            SDL_RenderClear($renderer);
+            SDL_SetRenderDrawColor($this->renderer, 95, 150, 249, 255);
+            SDL_RenderClear($this->renderer);
 
             $grid->draw($source, $destination, $drawingContext);
 
-            SDL_RenderPresent($renderer);
+            SDL_RenderPresent($this->renderer);
             SDL_Delay(5);
         }
-
-        SDL_DestroyRenderer($renderer);
-        SDL_DestroyWindow($window);
-        SDL_Quit();
     }
 
     public static function createSdlRect(Domain\Geometry\Rect $rect): \SDL_Rect
