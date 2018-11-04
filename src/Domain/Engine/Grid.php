@@ -34,7 +34,7 @@ class Grid implements Drawable
 
     public function setBlock(Point $position, Block $block): self
     {
-        $this->blocks[$position->x()][$position->y()] = $block;
+        $this->blocks[$position->y()][$position->x()] = $block;
 
         return $this;
     }

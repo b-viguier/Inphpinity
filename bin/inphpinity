@@ -3,29 +3,21 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$gridHeight = 50;
-$gridWidth = 80;
-$grid = \Inphpinity\Domain\Engine\Grid::create(
-    $gridWidth, $gridHeight, 30
-);
 
 $renderEngine = new \Inphpinity\Infrastructure\Render\SDL2\Engine();
 
-$block = \Inphpinity\Infrastructure\Render\SDL2\TextureBlock::fromBmpFile(
+
+$gridLoader = \Inphpinity\Infrastructure\Loader\TextGridLoader::fromDrawableMap([
+    'G' => \Inphpinity\Infrastructure\Render\SDL2\TextureBlock::fromBmpFile(
         $renderEngine,
         __DIR__ . '/../config/textures/gnd_red_1.bmp'
-);
+    ),
+    'B' => \Inphpinity\Infrastructure\Render\SDL2\TextureBlock::fromBmpFile(
+        $renderEngine,
+        __DIR__ . '/../config/textures/brickred.bmp'
+    ),
+]);
 
-for($i=0; $i< $gridWidth*$gridHeight; $i+=2) {
-    $grid->setBlock(
-        new \Inphpinity\Domain\Geometry\Point(
-            $row = (int)($i/$gridWidth),
-            ($col = $i%$gridWidth) + ($col+$row)%2
-        ),
-        \Inphpinity\Domain\Engine\Block::create($block)
-    );
-}
-
-
+$grid = $gridLoader->loadFile(__DIR__.'/../config/grids/lvl11.txt', 32);
 
 $renderEngine->run($grid);
