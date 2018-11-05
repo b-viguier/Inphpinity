@@ -21,6 +21,7 @@ class TextureBlock implements Drawable
             throw new \Exception("Unable to load '$filepath'.");
         }
 
+        SDL_SetColorKey($image, true, SDL_MapRGB($image->format, 255, 0, 255));
         $block = new self();
         $block->texture = SDL_CreateTextureFromSurface($engine->sdlRenderer(), $image);
         SDL_FreeSurface($image);
