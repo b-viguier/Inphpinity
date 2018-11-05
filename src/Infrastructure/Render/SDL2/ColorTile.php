@@ -7,7 +7,7 @@ use Inphpinity\Domain\Engine\DrawingContext;
 use Inphpinity\Domain\Geometry\Rect;
 use Inphpinity\Infrastructure\Render\SDL2\DrawingContext as SdlDrawingContext;
 
-class ColorBlock implements Drawable
+class ColorTile implements Drawable
 {
     /**
      * @param Rect              $source

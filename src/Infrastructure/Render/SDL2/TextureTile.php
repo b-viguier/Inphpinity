@@ -8,7 +8,7 @@ use Inphpinity\Domain\Geometry\Rect;
 use Inphpinity\Domain\Pattern\NamedConstructor;
 use Inphpinity\Infrastructure\Render\SDL2\DrawingContext as SdlDrawingContext;
 
-class TextureBlock implements Drawable
+class TextureTile implements Drawable
 {
     use NamedConstructor;
 
