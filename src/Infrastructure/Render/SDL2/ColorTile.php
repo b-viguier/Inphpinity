@@ -10,11 +10,10 @@ use Inphpinity\Infrastructure\Render\SDL2\DrawingContext as SdlDrawingContext;
 class ColorTile implements Drawable
 {
     /**
-     * @param Rect              $source
      * @param Rect              $destination
      * @param SdlDrawingContext $context
      */
-    public function draw(Rect $source, Rect $destination, DrawingContext $context)
+    public function draw(Rect $destination, DrawingContext $context)
     {
         $renderer = $context->sdlRenderer();
         SDL_SetRenderDrawColor($renderer, 255, 0, 0, 255);

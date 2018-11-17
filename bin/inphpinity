@@ -8,4 +8,26 @@ $renderEngine = new \Inphpinity\Infrastructure\Render\SDL2\Engine();
 $gridLoader = require __DIR__.'/../config/grids/bootstrap.php';
 $grid = $gridLoader->loadFile(__DIR__.'/../config/grids/lvl11.txt', 32);
 
-$renderEngine->run($grid);
+$camera = \Inphpinity\Domain\Engine\Camera::fromClippingArea(
+    \Inphpinity\Domain\Geometry\Rect::createFromOriginAndSize(
+        new \Inphpinity\Domain\Geometry\Point(0,0),
+        640,
+        480
+    )
+);
+
+$player = new \Inphpinity\Domain\Engine\Player(
+    \Inphpinity\Domain\Geometry\Rect::createFromOriginAndSize(
+        new \Inphpinity\Domain\Geometry\Point(300,200),
+        24,
+        32
+    ),
+    \Inphpinity\Infrastructure\Render\SDL2\TextureTile::fromBmpFile(
+        $renderEngine,
+        __DIR__ . '/../config/textures/player/mario.bmp'
+    )
+);
+
+$level = \Inphpinity\Domain\Engine\Level::create($camera, $grid, $player);
+
+$renderEngine->run($level);

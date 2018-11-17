@@ -28,7 +28,7 @@ class Engine
         return $this->renderer;
     }
 
-    public function run(Domain\Engine\Grid $grid)
+    public function run(Domain\Engine\Level $level)
     {
         $drawingContext = new DrawingContext($this->renderer);
 
@@ -39,11 +39,11 @@ class Engine
         );
         $source = clone $destination;
         $quit = false;
-        $speed = 1;
         $event = new \SDL_Event;
-        $lastTime = microtime(true);
+        $startTime = (int) microtime(true) * 1000;
         $numKeys = 0;
         while (!$quit) {
+            $currentTime = ((int) microtime(true) * 1000) - $startTime;
             $keyState = array_flip(SDL_GetKeyboardState($numKeys, false));
             while (SDL_PollEvent($event) !== 0) {
                 switch ($event->type) {
@@ -53,33 +53,29 @@ class Engine
                 }
             }
 
+            $input = new Domain\Engine\Input();
             if (isset($keyState[SDL_SCANCODE_UP])) {
-                $source = $source->moved(0, -$speed);
+                $input->pressButtons(Domain\Engine\Input::BTN_UP);
             }
             if (isset($keyState[SDL_SCANCODE_DOWN])) {
-                $source = $source->moved(0, $speed);
+                $input->pressButtons(Domain\Engine\Input::BTN_DOWN);
             }
             if (isset($keyState[SDL_SCANCODE_LEFT])) {
-                $source = $source->moved(-$speed, 0);
+                $input->pressButtons(Domain\Engine\Input::BTN_LEFT);
             }
             if (isset($keyState[SDL_SCANCODE_RIGHT])) {
-                $source = $source->moved($speed, 0);
+                $input->pressButtons(Domain\Engine\Input::BTN_RIGHT);
             }
 
             //Clear screen
             SDL_SetRenderDrawColor($this->renderer, 95, 150, 249, 255);
             SDL_RenderClear($this->renderer);
 
-            $grid->draw($source, $destination, $drawingContext);
+            $level->animate($currentTime, $input);
+            $level->draw($drawingContext);
 
             SDL_RenderPresent($this->renderer);
             SDL_Delay(5);
-
-            $duration = microtime(true) - $lastTime;
-            $durationMs = (int) ($duration * 1000);
-            $fps = (int)(1 / $duration);
-            echo "Duration: $durationMs ms     FPS: {$fps}     \r";
-            $lastTime += $duration;
         }
         echo PHP_EOL;
     }

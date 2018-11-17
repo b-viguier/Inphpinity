@@ -30,11 +30,10 @@ class TextureTile implements Drawable
     }
 
     /**
-     * @param Rect              $source
      * @param Rect              $destination
      * @param SdlDrawingContext $context
      */
-    public function draw(Rect $source, Rect $destination, DrawingContext $context)
+    public function draw(Rect $destination, DrawingContext $context)
     {
         $renderer = $context->sdlRenderer();
         SDL_RenderCopy($renderer, $this->texture, null, Engine::createSdlRect($destination));
