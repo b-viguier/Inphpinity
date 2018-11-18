@@ -6,13 +6,28 @@ use Inphpinity\Domain;
 
 class Engine
 {
+    /** @var \SDL_Window */
     private $window;
     private $renderer;
 
-    public function __construct()
+    /** @var int */
+    private $width;
+    /** @var int */
+    private $height;
+
+    public function __construct(string $title, int $width, int $height)
     {
+        // Shouldn't be necessary, but cannot achieve to retrieve SDL_Window size…
+        $this->width = $width;
+        $this->height = $height;
+
         sdl_init(SDL_INIT_VIDEO);
-        $this->window = sdl_createwindow('Inphpinity', SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
+        $this->window = sdl_createwindow(
+            $title,
+            SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+            $width, $height,
+            SDL_WINDOW_SHOWN
+        );
         $this->renderer = sdl_createrenderer($this->window, -1, 0);
     }
 
@@ -32,11 +47,11 @@ class Engine
     {
         $drawingContext = new DrawingContext($this->renderer);
 
-        $destination = Domain\Geometry\Rect::createFromPoints(
-            new Domain\Geometry\Point(0, 0),
-            new Domain\Geometry\Point(640, 480)
-        );
-        $source = clone $destination;
+        $level->camera()->setViewport(Domain\Geometry\Rect::createFromOriginAndSize(
+            Domain\Geometry\Point::origin(),
+            $this->width, $this->height
+        ));
+
         $quit = false;
         $event = new \SDL_Event();
         $startTime = (int) microtime(true) * 1000;

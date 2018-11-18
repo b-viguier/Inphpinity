@@ -27,6 +27,11 @@ class Level
         return $instance;
     }
 
+    public function camera(): Camera
+    {
+        return $this->camera;
+    }
+
     public function animate(int $timestamp, Input $input)
     {
         $this->player->animate($timestamp, $input);

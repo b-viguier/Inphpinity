@@ -13,6 +13,11 @@ class Point
         $this->y = $y;
     }
 
+    public static function origin(): self
+    {
+        return new self(0, 0);
+    }
+
     public function x(): int
     {
         return $this->x;

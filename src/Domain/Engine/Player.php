@@ -40,10 +40,7 @@ class Player
     public function draw(Camera $camera, DrawingContext $drawingContext)
     {
         $this->drawable->draw(
-            $this->boundingBox->moved(
-                -$camera->clippingArea()->left(),
-                -$camera->clippingArea()->top()
-            ),
+            $camera->toViewportRect($this->boundingBox),
             $drawingContext
         );
     }

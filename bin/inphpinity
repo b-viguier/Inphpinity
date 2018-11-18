@@ -3,14 +3,14 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-$renderEngine = new \Inphpinity\Infrastructure\Render\SDL2\Engine();
+$renderEngine = new \Inphpinity\Infrastructure\Render\SDL2\Engine('InPhpinity', 960, 720);
 
 $gridLoader = require __DIR__.'/../config/grids/bootstrap.php';
 $grid = $gridLoader->loadFile(__DIR__.'/../config/grids/lvl11.txt', 32);
 
-$camera = \Inphpinity\Domain\Engine\Camera::fromClippingArea(
+$camera = \Inphpinity\Domain\Engine\Camera::create(
     \Inphpinity\Domain\Geometry\Rect::createFromOriginAndSize(
-        new \Inphpinity\Domain\Geometry\Point(0, 0),
+        \Inphpinity\Domain\Geometry\Point::origin(),
         640,
         480
     )

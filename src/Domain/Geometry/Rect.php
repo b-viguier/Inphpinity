@@ -46,6 +46,16 @@ class Rect
         return $rect;
     }
 
+    public function topLeft(): Point
+    {
+        return new Point($this->left, $this->top);
+    }
+
+    public function bottomRight(): Point
+    {
+        return new Point($this->right, $this->bottom);
+    }
+
     public function left(): int
     {
         return $this->left;

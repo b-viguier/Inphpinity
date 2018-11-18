@@ -28,7 +28,7 @@ class Grid
             $grid->blocks[$row] = new \SplFixedArray($width);
         }
         $grid->area = Rect::createFromOriginAndSize(
-            new Point(0, 0),
+            Point::origin(),
             $width * $blockSize,
             $height * $blockSize
         );
@@ -61,18 +61,18 @@ class Grid
         $rowEnd = (int) ceil($clippingArea->bottom() / $this->blockSize);
         $rowEnd = min($rowEnd, $this->blocks->getSize());
 
-        $xOffset = -$clippingArea->left();
-        $yOffset = -$clippingArea->top();
         for ($row = $rowStart; $row < $rowEnd; $row++) {
             for ($col = $colStart; $col < $colEnd; $col++) {
                 if ($this->blocks[$row][$col] === null) {
                     continue;
                 }
                 $this->blocks[$row][$col]->drawable()->draw(
-                    Rect::createFromOriginAndSize(
-                        new Point($xOffset + $col * $this->blockSize, $yOffset + $row * $this->blockSize),
-                        $this->blockSize,
-                        $this->blockSize
+                    $camera->toViewportRect(
+                        Rect::createFromOriginAndSize(
+                            new Point($col * $this->blockSize, $row * $this->blockSize),
+                            $this->blockSize,
+                            $this->blockSize
+                        )
                     ),
                     $context
                 );
