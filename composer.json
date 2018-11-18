@@ -27,6 +27,6 @@
         "test": "./vendor/bin/phpunit --testsuite='Unit Testing'",
         "analyse": "./vendor/bin/phpstan analyse src tests --level=max --no-progress -vvv",
         "cs-check": "./vendor/bin/php-cs-fixer fix ./ --dry-run --verbose",
-        "cs-fix": "./vendor/bin/php-cs-fixer fix ./"
+        "cs-fix": "./vendor/bin/php-cs-fixer fix --config=./.php_cs ./bin/inphpinity ./src/ ./tests"
     }
 }

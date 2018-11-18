@@ -16,7 +16,7 @@ class ColorTile implements Drawable
     public function draw(Rect $destination, DrawingContext $context)
     {
         $renderer = $context->sdlRenderer();
-        SDL_SetRenderDrawColor($renderer, 255, 0, 0, 255);
-        SDL_RenderFillRect($renderer, Engine::createSdlRect($destination));
+        sdl_setrenderdrawcolor($renderer, 255, 0, 0, 255);
+        sdl_renderfillrect($renderer, Engine::createSdlRect($destination));
     }
 }

@@ -13,7 +13,6 @@ class Input
     public const BTN_START = 1 << 6;
     public const BTN_SELECT = 1 << 7;
 
-
     /** @var int */
     private $state = 0;
 

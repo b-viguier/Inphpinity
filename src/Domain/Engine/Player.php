@@ -21,11 +21,11 @@ class Player
     public function animate(int $timestamp, Input $input)
     {
         $deltaX = $deltaY = 0;
-        if ($input->someButtonsPressed(Input::BTN_RIGHT|Input::BTN_LEFT)) {
+        if ($input->someButtonsPressed(Input::BTN_RIGHT | Input::BTN_LEFT)) {
             $deltaX = $input->allButtonsPressed(Input::BTN_RIGHT) ? 1 : -1;
         }
 
-        if ($input->someButtonsPressed(Input::BTN_UP|Input::BTN_DOWN)) {
+        if ($input->someButtonsPressed(Input::BTN_UP | Input::BTN_DOWN)) {
             $deltaY = $input->allButtonsPressed(Input::BTN_UP) ? -1 : 1;
         }
 

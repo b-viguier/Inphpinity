@@ -24,7 +24,7 @@ class Grid
         $grid = new self();
         $grid->blockSize = $blockSize;
         $grid->blocks = new \SplFixedArray($height);
-        for ($row = 0; $row < $height; ++$row) {
+        for ($row = 0; $row < $height; $row++) {
             $grid->blocks[$row] = new \SplFixedArray($width);
         }
         $grid->area = Rect::createFromOriginAndSize(
@@ -51,20 +51,20 @@ class Grid
     public function draw(Camera $camera, DrawingContext $context)
     {
         $clippingArea = $camera->clippingArea();
-        $colStart = (int)floor($clippingArea->left() / $this->blockSize);
+        $colStart = (int) floor($clippingArea->left() / $this->blockSize);
         $colStart = max(0, $colStart);
-        $colEnd = (int)ceil($clippingArea->right() / $this->blockSize);
+        $colEnd = (int) ceil($clippingArea->right() / $this->blockSize);
         $colEnd = min($colEnd, $this->blocks[0]->getSize());
 
-        $rowStart = (int)floor($clippingArea->top() / $this->blockSize);
+        $rowStart = (int) floor($clippingArea->top() / $this->blockSize);
         $rowStart = max(0, $rowStart);
-        $rowEnd = (int)ceil($clippingArea->bottom() / $this->blockSize);
+        $rowEnd = (int) ceil($clippingArea->bottom() / $this->blockSize);
         $rowEnd = min($rowEnd, $this->blocks->getSize());
 
         $xOffset = -$clippingArea->left();
         $yOffset = -$clippingArea->top();
-        for ($row = $rowStart; $row < $rowEnd; ++$row) {
-            for ($col = $colStart; $col < $colEnd; ++$col) {
+        for ($row = $rowStart; $row < $rowEnd; $row++) {
+            for ($col = $colStart; $col < $colEnd; $col++) {
                 if ($this->blocks[$row][$col] === null) {
                     continue;
                 }

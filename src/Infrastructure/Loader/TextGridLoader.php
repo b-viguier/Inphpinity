@@ -57,7 +57,7 @@ class TextGridLoader
 
         $grid = Grid::create($width, $height, $blockSize);
         foreach ($data as $rowIndex => $row) {
-            for ($colIndex =0; $colIndex < strlen($row); ++$colIndex) {
+            for ($colIndex = 0; $colIndex < strlen($row); $colIndex++) {
                 $char = $row[$colIndex];
                 if (isset($this->drawableMap[$char])) {
                     $point = new Point($colIndex, $rowIndex);
@@ -93,11 +93,11 @@ class TextGridLoader
 
     private static function getLeft(Point $point, array $data): string
     {
-        return $data[$point->y()][$point->x()-1] ?? '';
+        return $data[$point->y()][$point->x() - 1] ?? '';
     }
 
     private static function getRight(Point $point, array $data): string
     {
-        return $data[$point->y()][$point->x()+1] ?? '';
+        return $data[$point->y()][$point->x() + 1] ?? '';
     }
 }

@@ -16,15 +16,15 @@ class TextureTile implements Drawable
 
     public static function fromBmpFile(Engine $engine, string $filepath): self
     {
-        $image = SDL_LoadBMP($filepath);
+        $image = sdl_loadbmp($filepath);
         if ($image === null) {
             throw new \Exception("Unable to load '$filepath'.");
         }
 
-        SDL_SetColorKey($image, true, SDL_MapRGB($image->format, 255, 0, 255));
+        sdl_setcolorkey($image, true, sdl_maprgb($image->format, 255, 0, 255));
         $block = new self();
-        $block->texture = SDL_CreateTextureFromSurface($engine->sdlRenderer(), $image);
-        SDL_FreeSurface($image);
+        $block->texture = sdl_createtexturefromsurface($engine->sdlRenderer(), $image);
+        sdl_freesurface($image);
 
         return $block;
     }
@@ -36,6 +36,6 @@ class TextureTile implements Drawable
     public function draw(Rect $destination, DrawingContext $context)
     {
         $renderer = $context->sdlRenderer();
-        SDL_RenderCopy($renderer, $this->texture, null, Engine::createSdlRect($destination));
+        sdl_rendercopy($renderer, $this->texture, null, Engine::createSdlRect($destination));
     }
 }
