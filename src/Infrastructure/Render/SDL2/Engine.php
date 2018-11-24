@@ -10,23 +10,14 @@ class Engine
     private $window;
     private $renderer;
 
-    /** @var int */
-    private $width;
-    /** @var int */
-    private $height;
-
     public function __construct(string $title, int $width, int $height)
     {
-        // Shouldn't be necessary, but cannot achieve to retrieve SDL_Window size…
-        $this->width = $width;
-        $this->height = $height;
-
         sdl_init(SDL_INIT_VIDEO);
         $this->window = sdl_createwindow(
             $title,
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
             $width, $height,
-            SDL_WINDOW_SHOWN
+            SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
         );
         $this->renderer = sdl_createrenderer($this->window, -1, 0);
     }
@@ -47,9 +38,11 @@ class Engine
     {
         $drawingContext = new DrawingContext($this->renderer);
 
+        $width = $height = 0;
+        sdl_getwindowsize($this->window, $width, $height);
         $level->camera()->setViewport(Domain\Geometry\Rect::createFromOriginAndSize(
             Domain\Geometry\Point::origin(),
-            $this->width, $this->height
+            $width, $height
         ));
 
         $quit = false;
@@ -63,6 +56,15 @@ class Engine
                 switch ($event->type) {
                     case SDL_QUIT:
                         $quit = true;
+                        break;
+                    case SDL_WINDOWEVENT:
+                        // TODO: implement SDL_Event->window in extension
+                        // https://wiki.libsdl.org/SDL_Event
+                        sdl_getwindowsize($this->window, $width, $height);
+                        $level->camera()->setViewport(Domain\Geometry\Rect::createFromOriginAndSize(
+                            Domain\Geometry\Point::origin(),
+                            $width, $height
+                        ));
                         break;
                 }
             }
