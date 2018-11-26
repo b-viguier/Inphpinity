@@ -41,9 +41,9 @@ class Grid
         return $this->area;
     }
 
-    public function setBlock(Point $position, Block $block): self
+    public function setBlock(int $row, int $col, Block $block): self
     {
-        $this->blocks[$position->y()][$position->x()] = $block;
+        $this->blocks[$row][$col] = $block;
 
         return $this;
     }

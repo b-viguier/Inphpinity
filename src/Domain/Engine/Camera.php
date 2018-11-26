@@ -4,6 +4,7 @@ namespace Inphpinity\Domain\Engine;
 
 use Inphpinity\Domain\Geometry\Point;
 use Inphpinity\Domain\Geometry\Rect;
+use Inphpinity\Domain\Geometry\Vec;
 use Inphpinity\Domain\Pattern\NamedConstructor;
 
 class Camera
@@ -73,7 +74,7 @@ class Camera
             $deltaY = min($boundingBox->bottom(), $allowedArea->bottom()) - $this->clippingArea->bottom();
         }
 
-        $this->clippingArea = $this->clippingArea->moved($deltaX, $deltaY);
+        $this->clippingArea = $this->clippingArea->translated(Vec::fromCoordinates($deltaX, $deltaY));
 
         return $this;
     }

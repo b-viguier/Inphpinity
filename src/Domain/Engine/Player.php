@@ -3,6 +3,7 @@
 namespace Inphpinity\Domain\Engine;
 
 use Inphpinity\Domain\Geometry\Rect;
+use Inphpinity\Domain\Geometry\Vec;
 
 class Player
 {
@@ -18,18 +19,17 @@ class Player
         $this->drawable = $drawable;
     }
 
-    public function animate(int $timestamp, Input $input)
+    public function animate(Tick $tick, Input $input)
     {
-        $deltaX = $deltaY = 0;
-        if ($input->someButtonsPressed(Input::BTN_RIGHT | Input::BTN_LEFT)) {
-            $deltaX = $input->allButtonsPressed(Input::BTN_RIGHT) ? 1 : -1;
-        }
-
-        if ($input->someButtonsPressed(Input::BTN_UP | Input::BTN_DOWN)) {
-            $deltaY = $input->allButtonsPressed(Input::BTN_UP) ? -1 : 1;
-        }
-
-        $this->boundingBox = $this->boundingBox->moved($deltaX, $deltaY);
+        $motion = Vec::fromCoordinates(
+            $input->allButtonsPressed(Input::BTN_RIGHT) ? 1
+                : ($input->allButtonsPressed(Input::BTN_LEFT) ? -1 : 0),
+            $input->allButtonsPressed(Input::BTN_DOWN) ? 1
+                : ($input->allButtonsPressed(Input::BTN_UP) ? -1 : 0)
+        );
+        $this->boundingBox = $this->boundingBox->translated(
+            $motion->scaled($tick->elapsedTime() / 5)
+        );
     }
 
     public function boundingBox(): Rect

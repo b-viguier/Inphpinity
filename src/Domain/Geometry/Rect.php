@@ -9,22 +9,22 @@ class Rect
     use NamedConstructor;
 
     /**
-     * @var int
+     * @var float
      */
     private $left;
 
     /**
-     * @var int
+     * @var float
      */
     private $top;
 
     /**
-     * @var int
+     * @var float
      */
     private $right;
 
     /**
-     * @var int
+     * @var float
      */
     private $bottom;
 
@@ -37,7 +37,7 @@ class Rect
         return $rect;
     }
 
-    public static function createFromOriginAndSize(Point $origin, int $width, int $height): self
+    public static function createFromOriginAndSize(Point $origin, float $width, float $height): self
     {
         $rect = new self();
         $rect->right = ($rect->left = $origin->x()) + $width;
@@ -56,34 +56,42 @@ class Rect
         return new Point($this->right, $this->bottom);
     }
 
-    public function left(): int
+    public function left(): float
     {
         return $this->left;
     }
 
-    public function right(): int
+    public function right(): float
     {
         return $this->right;
     }
 
-    public function bottom(): int
+    public function bottom(): float
     {
         return $this->bottom;
     }
 
-    public function top(): int
+    public function top(): float
     {
         return $this->top;
     }
 
-    public function width(): int
+    public function width(): float
     {
         return $this->right - $this->left;
     }
 
-    public function height(): int
+    public function height(): float
     {
         return $this->bottom - $this->top;
+    }
+
+    public function center(): Point
+    {
+        return new Point(
+            ($this->left + $this->right) / 2,
+            ($this->top + $this->bottom) / 2
+        );
     }
 
     public function contains(Point $point): bool
@@ -97,13 +105,13 @@ class Rect
             && $y <= $this->bottom;
     }
 
-    public function moved(int $xDelta, int $yDelta): self
+    public function translated(Vec $vec): self
     {
         $rect = clone $this;
-        $rect->left += $xDelta;
-        $rect->right += $xDelta;
-        $rect->bottom += $yDelta;
-        $rect->top += $yDelta;
+        $rect->left += $vec->dx();
+        $rect->right += $vec->dx();
+        $rect->bottom += $vec->dy();
+        $rect->top += $vec->dy();
 
         return $rect;
     }

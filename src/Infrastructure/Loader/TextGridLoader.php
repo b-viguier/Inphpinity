@@ -5,7 +5,6 @@ namespace Inphpinity\Infrastructure\Loader;
 use Inphpinity\Domain\Engine\Block;
 use Inphpinity\Domain\Engine\Drawable;
 use Inphpinity\Domain\Engine\Grid;
-use Inphpinity\Domain\Geometry\Point;
 use Inphpinity\Domain\Pattern\NamedConstructor;
 
 class TextGridLoader
@@ -60,10 +59,9 @@ class TextGridLoader
             for ($colIndex = 0; $colIndex < strlen($row); $colIndex++) {
                 $char = $row[$colIndex];
                 if (isset($this->drawableMap[$char])) {
-                    $point = new Point($colIndex, $rowIndex);
                     $grid->setBlock(
-                        new Point($colIndex, $rowIndex),
-                        Block::create($this->drawableMap[$char][self::getRole($point, $data)])
+                        $rowIndex, $colIndex,
+                        Block::create($this->drawableMap[$char][self::getRole($rowIndex, $colIndex, $data)])
                     );
                 }
             }
@@ -72,14 +70,12 @@ class TextGridLoader
         return $grid;
     }
 
-    private static function getRole(Point $point, array $data): string
+    private static function getRole(int $row, int $col, array $data): string
     {
-        $row = $point->y();
-        $col = $point->x();
         $char = $data[$row][$col];
 
-        $isSameAtRight = self::getRight($point, $data) === $char;
-        $isSameAtLeft = self::getLeft($point, $data) === $char;
+        $isSameAtRight = self::getRight($row, $col, $data) === $char;
+        $isSameAtLeft = self::getLeft($row, $col, $data) === $char;
 
         if (!$isSameAtLeft && $isSameAtRight) {
             return self::ROLE_LEFT;
@@ -91,13 +87,13 @@ class TextGridLoader
         return self::ROLE_CENTER;
     }
 
-    private static function getLeft(Point $point, array $data): string
+    private static function getLeft(int $row, int $col, array $data): string
     {
-        return $data[$point->y()][$point->x() - 1] ?? '';
+        return $data[$row][$col - 1] ?? '';
     }
 
-    private static function getRight(Point $point, array $data): string
+    private static function getRight(int $row, int $col, array $data): string
     {
-        return $data[$point->y()][$point->x() + 1] ?? '';
+        return $data[$row][$col + 1] ?? '';
     }
 }

@@ -32,9 +32,9 @@ class Level
         return $this->camera;
     }
 
-    public function animate(int $timestamp, Input $input)
+    public function animate(Tick $tick, Input $input)
     {
-        $this->player->animate($timestamp, $input);
+        $this->player->animate($tick, $input);
         $this->camera->follow($this->player->boundingBox(), $this->grid->area());
     }
 

@@ -4,10 +4,12 @@ namespace Inphpinity\Domain\Geometry;
 
 class Point
 {
-    private $x = 0;
-    private $y = 0;
+    /** @var float */
+    private $x = 0.0;
+    /** @var float */
+    private $y = 0.0;
 
-    public function __construct(int $x, int $y)
+    public function __construct(float $x, float $y)
     {
         $this->x = $x;
         $this->y = $y;
@@ -18,12 +20,12 @@ class Point
         return new self(0, 0);
     }
 
-    public function x(): int
+    public function x(): float
     {
         return $this->x;
     }
 
-    public function y(): int
+    public function y(): float
     {
         return $this->y;
     }

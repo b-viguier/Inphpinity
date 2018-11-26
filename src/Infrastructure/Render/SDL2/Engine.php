@@ -47,10 +47,11 @@ class Engine
 
         $quit = false;
         $event = new \SDL_Event();
-        $startTime = (int) microtime(true) * 1000;
+        $tick = Domain\Engine\Tick::start((int) (microtime(true) * 1000));
         $numKeys = 0;
         while (!$quit) {
-            $currentTime = ((int) microtime(true) * 1000) - $startTime;
+            $tick = $tick->nextTick((int) (microtime(true) * 1000));
+
             $keyState = array_flip(sdl_getkeyboardstate($numKeys, false));
             while (sdl_pollevent($event) !== 0) {
                 switch ($event->type) {
@@ -87,7 +88,7 @@ class Engine
             sdl_setrenderdrawcolor($this->renderer, 95, 150, 249, 255);
             sdl_renderclear($this->renderer);
 
-            $level->animate($currentTime, $input);
+            $level->animate($tick, $input);
             $level->draw($drawingContext);
 
             sdl_renderpresent($this->renderer);
@@ -99,10 +100,10 @@ class Engine
     public static function createSdlRect(Domain\Geometry\Rect $rect): \SDL_Rect
     {
         return new \SDL_Rect(
-            $rect->left(),
-            $rect->top(),
-            $rect->width(),
-            $rect->height()
+            (int) $rect->left(),
+            (int) $rect->top(),
+            (int) $rect->width(),
+            (int) $rect->height()
         );
     }
 }
