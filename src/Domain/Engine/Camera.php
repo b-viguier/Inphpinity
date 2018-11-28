@@ -61,20 +61,14 @@ class Camera
 
     public function follow(Rect $boundingBox, Rect $allowedArea): self
     {
-        $deltaX = $deltaY = 0;
-        if ($boundingBox->left() < $this->clippingArea->left()) {
-            $deltaX = max($boundingBox->left(), $allowedArea->left()) - $this->clippingArea->left();
-        } elseif ($boundingBox->right() > $this->clippingArea->right()) {
-            $deltaX = min($boundingBox->right(), $allowedArea->right()) - $this->clippingArea->right();
+        $deltaX = $boundingBox->center()->x() - $this->clippingArea->center()->x();
+        if ($deltaX < 0) {
+            $deltaX = $this->clippingArea->left() + $deltaX < $allowedArea->left() ? 0 : $deltaX;
+        } else {
+            $deltaX = $this->clippingArea->right() + $deltaX > $allowedArea->right() ? 0 : $deltaX;
         }
 
-        if ($boundingBox->top() < $this->clippingArea->top()) {
-            $deltaY = max($boundingBox->top(), $allowedArea->top()) - $this->clippingArea->top();
-        } elseif ($boundingBox->bottom() > $this->clippingArea->bottom()) {
-            $deltaY = min($boundingBox->bottom(), $allowedArea->bottom()) - $this->clippingArea->bottom();
-        }
-
-        $this->clippingArea = $this->clippingArea->translated(Vec::fromCoordinates($deltaX, $deltaY));
+        $this->clippingArea = $this->clippingArea->translated(Vec::fromCoordinates($deltaX, 0));
 
         return $this;
     }
