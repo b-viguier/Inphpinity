@@ -19,4 +19,9 @@ class ColorTile implements Drawable
         sdl_setrenderdrawcolor($renderer, 255, 0, 0, 255);
         sdl_renderfillrect($renderer, Engine::createSdlRect($destination));
     }
+
+    public function flip(bool $flip)
+    {
+        // Nothing to do for a simple color
+    }
 }

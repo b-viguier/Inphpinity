@@ -7,4 +7,6 @@ use Inphpinity\Domain\Geometry\Rect;
 interface Drawable
 {
     public function draw(Rect $destination, DrawingContext $context);
+
+    public function flip(bool $flip);
 }

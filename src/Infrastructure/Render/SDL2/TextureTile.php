@@ -13,6 +13,8 @@ class TextureTile implements Drawable
     use NamedConstructor;
 
     private $texture;
+    /** @var int */
+    private $flipping = SDL_FLIP_NONE;
 
     public static function fromBmpFile(Engine $engine, string $filepath): self
     {
@@ -36,6 +38,11 @@ class TextureTile implements Drawable
     public function draw(Rect $destination, DrawingContext $context)
     {
         $renderer = $context->sdlRenderer();
-        sdl_rendercopy($renderer, $this->texture, null, Engine::createSdlRect($destination));
+        \sdl_rendercopyex($renderer, $this->texture, null, Engine::createSdlRect($destination), 0, null, $this->flipping);
+    }
+
+    public function flip(bool $flip)
+    {
+        $this->flipping = $flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
     }
 }

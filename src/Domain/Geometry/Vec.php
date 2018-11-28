@@ -13,6 +13,11 @@ class Vec
     /** @var float */
     private $dy = 0.0;
 
+    public static function null(): self
+    {
+        return self::fromCoordinates(0, 0);
+    }
+
     public static function fromCoordinates(float $dx, float $dy): self
     {
         $vec = new self();

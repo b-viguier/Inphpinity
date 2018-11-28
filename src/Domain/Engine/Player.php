@@ -21,15 +21,22 @@ class Player
 
     public function animate(Tick $tick, Input $input)
     {
-        $motion = Vec::fromCoordinates(
-            $input->allButtonsPressed(Input::BTN_RIGHT) ? 1
-                : ($input->allButtonsPressed(Input::BTN_LEFT) ? -1 : 0),
-            $input->allButtonsPressed(Input::BTN_DOWN) ? 1
-                : ($input->allButtonsPressed(Input::BTN_UP) ? -1 : 0)
-        );
-        $this->boundingBox = $this->boundingBox->translated(
-            $motion->scaled($tick->elapsedTime() / 5)
-        );
+        $dX = $dY = 0;
+        if ($input->someButtonsPressed(Input::BTN_RIGHT | Input::BTN_LEFT)) {
+            if ($input->allButtonsPressed(Input::BTN_RIGHT)) {
+                $dX = 1;
+                $this->drawable->flip(false);
+            } else {
+                $dX = -1;
+                $this->drawable->flip(true);
+            }
+        }
+
+        if ($input->someButtonsPressed(Input::BTN_UP | Input::BTN_DOWN)) {
+            $dY = $input->allButtonsPressed(Input::BTN_UP) ? -1 : 1;
+        }
+        $motion = Vec::fromCoordinates($dX, $dY)->scaled($tick->elapsedTime() / 5);
+        $this->boundingBox = $this->boundingBox->translated($motion);
     }
 
     public function boundingBox(): Rect
