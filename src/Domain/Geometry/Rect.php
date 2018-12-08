@@ -94,6 +94,22 @@ class Rect
         );
     }
 
+    public function collideWith(Rect $other): Vec
+    {
+        $outside = Vec::fromPoints($other->center(), $this->center());
+        if (abs($outside->dx()) > abs($outside->dy())) {
+            return Vec::fromCoordinates(
+                $outside->dx() > 0 ? ($other->right - $this->left) : ($other->left - $this->right),
+                0
+            );
+        }
+
+        return Vec::fromCoordinates(
+            0,
+            $outside->dy() > 0 ? ($other->bottom - $this->top) : ($other->top - $this->bottom)
+        );
+    }
+
     public function contains(Point $point): bool
     {
         $x = $point->x();

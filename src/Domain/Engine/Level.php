@@ -35,6 +35,11 @@ class Level
     public function animate(Tick $tick, Input $input)
     {
         $this->player->animate($tick, $input);
+        while ($block = $this->grid->closestIntersectedBlockArea($this->player->boundingBox())) {
+            $force = $this->player->boundingBox()->collideWith($block);
+            $this->player->translate($force);
+        }
+
         $this->camera->follow($this->player->boundingBox(), $this->grid->area());
     }
 

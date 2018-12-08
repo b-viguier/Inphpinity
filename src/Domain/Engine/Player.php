@@ -39,6 +39,11 @@ class Player
         $this->boundingBox = $this->boundingBox->translated($motion);
     }
 
+    public function translate(Vec $motion)
+    {
+        $this->boundingBox = $this->boundingBox->translated($motion);
+    }
+
     public function boundingBox(): Rect
     {
         return $this->boundingBox;
