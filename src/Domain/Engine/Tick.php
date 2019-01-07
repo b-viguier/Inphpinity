@@ -23,6 +23,11 @@ class Tick
         return $tick;
     }
 
+    public static function startFrom(self $other): self
+    {
+        return self::start($other->absolute());
+    }
+
     public function nextTick(int $currentTimestamp): self
     {
         $nextTick = clone $this;

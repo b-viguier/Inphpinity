@@ -19,7 +19,7 @@ class Engine
             $width, $height,
             SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
         );
-        $this->renderer = sdl_createrenderer($this->window, -1, 0);
+        $this->renderer = sdl_createrenderer($this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     }
 
     public function __destruct()
@@ -82,6 +82,9 @@ class Engine
             }
             if (isset($keyState[SDL_SCANCODE_RIGHT])) {
                 $input->pressButtons(Domain\Engine\Input::BTN_RIGHT);
+            }
+            if (isset($keyState[SDL_SCANCODE_SPACE])) {
+                $input->pressButtons(Domain\Engine\Input::BTN_A);
             }
 
             //Clear screen
